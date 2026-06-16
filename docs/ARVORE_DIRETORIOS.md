@@ -10,7 +10,6 @@ poolcare-scheduler/
 |-- docs/
 |   |-- ARVORE_DIRETORIOS.md
 |   |-- API_EXEMPLOS.md
-|   |-- DEPLOY_RENDER.md
 |   |-- RELATORIO_ACADEMICO.md
 |-- services/
 |   |-- auth-service/

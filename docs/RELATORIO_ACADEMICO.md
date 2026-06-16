@@ -265,7 +265,7 @@ Motivos:
 - Deploy integrado com GitHub.
 - Configuracao declarativa via `render.yaml`.
 
-Passos detalhados estao em `docs/DEPLOY_RENDER.md`.
+O deploy e configurado pelo arquivo `render.yaml`, mantendo a infraestrutura declarativa no repositorio.
 
 ## 14. Conclusao
 
