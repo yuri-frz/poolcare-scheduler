@@ -84,6 +84,18 @@ services:
     networks:
       - poolcare-network
 
+  web:
+    build: ./web
+    container_name: poolcare-web
+    ports:
+      - "3000:80"
+    depends_on:
+      - auth-service
+      - scheduling-service
+      - notification-service
+    networks:
+      - poolcare-network
+
 networks:
   poolcare-network:
     driver: bridge

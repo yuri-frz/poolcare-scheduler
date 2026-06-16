@@ -25,6 +25,7 @@ docker compose up --build
 
 Servicos:
 
+- Web: `http://localhost:3000`
 - Auth: `http://localhost:3001/health`
 - Scheduling: `http://localhost:3002/health`
 - Notification: `http://localhost:3003/health`
@@ -38,6 +39,13 @@ npm run install:all
 npm test
 npm run test:bdd
 npm run build
+```
+
+Frontend:
+
+```bash
+npm run dev --prefix web
+npm run build --prefix web
 ```
 
 Ou execute dentro de cada pasta em `services/*`:
