@@ -1,0 +1,94 @@
+services:
+  auth-db:
+    image: postgres:16-alpine
+    container_name: poolcare-auth-db
+    environment:
+      POSTGRES_USER: poolcare
+      POSTGRES_PASSWORD: poolcare
+      POSTGRES_DB: auth_db
+    ports:
+      - "5433:5432"
+    networks:
+      - poolcare-network
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+
+  scheduling-db:
+    image: postgres:16-alpine
+    container_name: poolcare-scheduling-db
+    environment:
+      POSTGRES_USER: poolcare
+      POSTGRES_PASSWORD: poolcare
+      POSTGRES_DB: scheduling_db
+    ports:
+      - "5434:5432"
+    networks:
+      - poolcare-network
+    volumes:
+      - scheduling-db-data:/var/lib/postgresql/data
+
+  notification-db:
+    image: postgres:16-alpine
+    container_name: poolcare-notification-db
+    environment:
+      POSTGRES_USER: poolcare
+      POSTGRES_PASSWORD: poolcare
+      POSTGRES_DB: notification_db
+    ports:
+      - "5435:5432"
+    networks:
+      - poolcare-network
+    volumes:
+      - notification-db-data:/var/lib/postgresql/data
+
+  auth-service:
+    build: ./services/auth-service
+    container_name: poolcare-auth-service
+    environment:
+      PORT: 3001
+      JWT_SECRET: academic-secret
+      DATABASE_URL: postgres://poolcare:poolcare@auth-db:5432/auth_db
+    ports:
+      - "3001:3001"
+    depends_on:
+      - auth-db
+    networks:
+      - poolcare-network
+
+  scheduling-service:
+    build: ./services/scheduling-service
+    container_name: poolcare-scheduling-service
+    environment:
+      PORT: 3002
+      JWT_SECRET: academic-secret
+      DATABASE_URL: postgres://poolcare:poolcare@scheduling-db:5432/scheduling_db
+      NOTIFICATION_URL: http://notification-service:3003
+    ports:
+      - "3002:3002"
+    depends_on:
+      - scheduling-db
+      - notification-service
+    networks:
+      - poolcare-network
+
+  notification-service:
+    build: ./services/notification-service
+    container_name: poolcare-notification-service
+    environment:
+      PORT: 3003
+      DATABASE_URL: postgres://poolcare:poolcare@notification-db:5432/notification_db
+    ports:
+      - "3003:3003"
+    depends_on:
+      - notification-db
+    networks:
+      - poolcare-network
+
+networks:
+  poolcare-network:
+    driver: bridge
+
+volumes:
+  auth-db-data:
+  scheduling-db-data:
+  notification-db-data:

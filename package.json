@@ -1,0 +1,12 @@
+{
+  "name": "poolcare-scheduler",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix services/auth-service && npm install --prefix services/scheduling-service && npm install --prefix services/notification-service",
+    "test": "npm test --prefix services/auth-service && npm test --prefix services/scheduling-service && npm test --prefix services/notification-service",
+    "test:bdd": "npm run test:bdd --prefix services/auth-service && npm run test:bdd --prefix services/scheduling-service && npm run test:bdd --prefix services/notification-service",
+    "build": "npm run build --prefix services/auth-service && npm run build --prefix services/scheduling-service && npm run build --prefix services/notification-service",
+    "docker:up": "docker compose up --build"
+  }
+}

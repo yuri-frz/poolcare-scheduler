@@ -1,0 +1,53 @@
+services:
+  - type: web
+    name: poolcare-auth-service
+    runtime: docker
+    rootDir: services/auth-service
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: poolcare-auth-db
+          property: connectionString
+
+  - type: web
+    name: poolcare-scheduling-service
+    runtime: docker
+    rootDir: services/scheduling-service
+    envVars:
+      - key: PORT
+        value: 3002
+      - key: JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: poolcare-scheduling-db
+          property: connectionString
+      - key: NOTIFICATION_URL
+        value: https://poolcare-notification-service.onrender.com
+
+  - type: web
+    name: poolcare-notification-service
+    runtime: docker
+    rootDir: services/notification-service
+    envVars:
+      - key: PORT
+        value: 3003
+      - key: DATABASE_URL
+        fromDatabase:
+          name: poolcare-notification-db
+          property: connectionString
+
+databases:
+  - name: poolcare-auth-db
+    databaseName: auth_db
+    user: poolcare
+  - name: poolcare-scheduling-db
+    databaseName: scheduling_db
+    user: poolcare
+  - name: poolcare-notification-db
+    databaseName: notification_db
+    user: poolcare
